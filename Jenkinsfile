@@ -1,6 +1,5 @@
 // Jenkinsfile
 
-try {
   stage('checkout') {
     node {
       cleanWs()
@@ -47,15 +46,3 @@ try {
     }
 
   currentBuild.result = 'SUCCESS'
-}
-  
-catch (err) {
-  currentBuild.result = 'FAILURE'
-  throw err
-}
-
-finally {
-  if (currentBuild.result == 'SUCCESS') {
-    currentBuild.result = 'SUCCESS'
-  }
-}
