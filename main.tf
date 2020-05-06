@@ -53,7 +53,7 @@ resource "aws_security_group" "instance" {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = ["176.120.239.0/24"]
+    cidr_blocks = ["176.120.237.0/24"]
   }
 
   egress {
