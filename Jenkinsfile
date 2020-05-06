@@ -44,5 +44,6 @@
         }
       }
     }
+  }
 
   currentBuild.result = 'SUCCESS'
