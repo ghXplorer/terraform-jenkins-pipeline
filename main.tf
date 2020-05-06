@@ -1,6 +1,6 @@
 provider "aws" {
   version = "~> 2.50"
-  region = "eu-central-1"
+  region  = "eu-central-1"
 }
 
 
@@ -66,10 +66,10 @@ resource "aws_security_group" "instance" {
 
 
   egress {
-    from_port       = 0
-    to_port         = 0
-    protocol        = "-1"
-    cidr_blocks     = ["0.0.0.0/0"]
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
   }
 }
 
@@ -79,9 +79,9 @@ resource "aws_security_group" "instance" {
 
 terraform {
   backend "s3" {
-    bucket         = "terraform-sample-project-04052020"
-    key            = "devops/terraform.tfstate"
-    region         = "eu-central-1"
+    bucket = "terraform-sample-project-04052020"
+    key    = "devops/terraform.tfstate"
+    region = "eu-central-1"
 
     dynamodb_table = "terraform-sample-project-locks"
     encrypt        = true
