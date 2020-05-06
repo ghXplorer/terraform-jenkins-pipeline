@@ -56,6 +56,15 @@ resource "aws_security_group" "instance" {
     cidr_blocks = ["176.120.237.0/24"]
   }
 
+
+  ingress {
+    from_port   = 8888
+    to_port     = 8888
+    protocol    = "tcp"
+    cidr_blocks = ["176.120.224.0/19"]
+  }
+
+
   egress {
     from_port       = 0
     to_port         = 0
