@@ -53,6 +53,7 @@ try {
 catch (err) {
   currentBuild.result = 'FAILURE'
   echo "Caught: ${err}"
+  throw err
 }
 
 finally {
