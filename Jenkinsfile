@@ -57,6 +57,6 @@ catch (err) {
 
 finally {
   if (currentBuild.result == 'SUCCESS') {
-    currentBuild.result = 'SUCCESS'
+    echo "SUCCESS!"
   }
 }
