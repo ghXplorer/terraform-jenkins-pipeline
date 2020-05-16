@@ -5,7 +5,7 @@ node {
     stage('checkout') {
       cleanWs()
       checkout scm
-      sh 'ls -al | grep "myscript" | wc -l > temp.value'
+      sh 'ls -al | grep "destroy" | wc -l > temp.value'
       sh 'more temp.value'
       def flag_destroy = sh 'grep -i 1 temp.value'
     }
@@ -15,7 +15,7 @@ node {
     stage('init') {
       ansiColor('xterm') {
         sh 'terraform init'
-        if (flag_destroy == '1') {
+        if (flag_destroy == 0) {
           echo 'Destroying AWS infrastructure - DESTROY FLAG detected!'
           ansiColor('xterm') {
             sh 'terraform destroy -auto-approve'
