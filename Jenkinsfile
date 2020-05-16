@@ -5,8 +5,18 @@ node {
     stage('checkout') {
       cleanWs()
       checkout scm
+      sh 'export TF_DESTROY_CHECK=$(ls -al | grep "destroy" | wc -l)'
     }
   
+    if (env.TF_DESTROY_CHECK == '1') {
+      stage('destroy') {
+        ansiColor('xterm') {
+          sh 'terraform destroy -auto-approve'
+        }
+      }
+      return
+    }
+
     // Run terraform init
     stage('init') {
       ansiColor('xterm') {
