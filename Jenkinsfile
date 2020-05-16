@@ -10,9 +10,9 @@ node {
       try {
         sh 'grep -i 1 temp.value'
       } catch (err) {
-        def flag_destroy = 0
+        flag_destroy = 0
       }
-      def flag_destroy = 1
+      flag_destroy = 1
    }
   
     // Run terraform init
