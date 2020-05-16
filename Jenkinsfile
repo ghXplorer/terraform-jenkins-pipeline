@@ -9,7 +9,7 @@ node {
       sh 'more temp.value'
       try {
         sh 'grep -i 1 temp.value'
-      } catch {
+      } catch (err) {
         def flag_destroy = 0
       }
       def flag_destroy = 1
