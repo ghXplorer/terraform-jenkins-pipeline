@@ -1,2 +1,2 @@
 # terraform-jenkins-pipeline
-provisioning AWS instance through Jenkins
+Provisioning AWS infrastructure through Jenkins
