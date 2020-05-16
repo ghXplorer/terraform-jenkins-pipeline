@@ -6,7 +6,7 @@ node {
       cleanWs()
       checkout scm
       sh 'export TF_DESTROY_CHECK=$(ls -al | grep "destroy" | wc -l)'
-      if (env.TF_DESTROY_CHECK) {
+      if (env.TF_DESTROY_CHECK == 1) {
         ansiColor('xterm') {
           sh 'terraform destroy -auto-approve'
         }
