@@ -2,6 +2,7 @@
 
 node {
   try {
+    // checking repo and searching for 'destroy flag'
     stage('checkout') {
       cleanWs()
       checkout scm
