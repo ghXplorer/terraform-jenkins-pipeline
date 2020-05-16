@@ -1,4 +1,4 @@
-// Jenkinsfile
+// Jenkinsfile for scripted pipeline
 
 node {
   try {
