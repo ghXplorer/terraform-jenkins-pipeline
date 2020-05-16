@@ -8,7 +8,7 @@ node {
       sh 'ls -al | grep "destroy" | wc -l > temp.value'
       sh 'more temp.value'
       def flag_destroy = sh 'grep -i 1 temp.value'
-      echo 'Printing variable: ${flag_destroy}'
+      echo "variable: ${flag_destroy}"
     }
     
   
