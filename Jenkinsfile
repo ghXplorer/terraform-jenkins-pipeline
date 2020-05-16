@@ -2,7 +2,7 @@
 
 node {
   try {
-    // checking repo and searching for 'destroy flag'
+    // Checking repo and searching for 'destroy flag'
     stage('checkout') {
       cleanWs()
       checkout scm
@@ -21,18 +21,18 @@ node {
     stage('init') {
       ansiColor('xterm') {
         sh 'terraform init'
-        if (flag_destroy == 1) {
+      }
+    }
+
+    // Run terraform plan
+    stage('plan or destroy) {
+      if (flag_destroy == 1) {
           echo 'Destroying AWS infrastructure - DESTROY FLAG detected!'
           ansiColor('xterm') {
             sh 'terraform destroy -auto-approve'
           }
           return
-        }
       }
-    }
-
-    // Run terraform plan
-    stage('plan') {
       ansiColor('xterm') {
         sh 'terraform plan'
       }
