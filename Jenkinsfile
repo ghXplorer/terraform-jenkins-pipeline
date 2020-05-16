@@ -11,6 +11,7 @@ node {
           sh 'terraform destroy -auto-approve'
         }
       return
+      }
     }
   
     // Run terraform init
