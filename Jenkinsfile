@@ -7,16 +7,19 @@ node {
       checkout scm
       sh 'ls -al | grep "destroy" | wc -l > temp.value'
       sh 'more temp.value'
-      def flag_destroy = sh 'grep -i 1 temp.value'
-      echo "variable: ${flag_destroy}"
-    }
-    
+      try {
+        sh 'grep -i 1 temp.value'
+      } catch {
+        def flag_destroy = 0
+      }
+      def flag_destroy = 1
+   }
   
     // Run terraform init
     stage('init') {
       ansiColor('xterm') {
         sh 'terraform init'
-        if (flag_destroy == 0) {
+        if (flag_destroy == 1) {
           echo 'Destroying AWS infrastructure - DESTROY FLAG detected!'
           ansiColor('xterm') {
             sh 'terraform destroy -auto-approve'
