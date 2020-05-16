@@ -25,7 +25,7 @@ node {
     }
 
     // Run terraform plan
-    stage('plan or destroy) {
+    stage('plan or destroy') {
       if (flag_destroy == 1) {
           echo 'Destroying AWS infrastructure - DESTROY FLAG detected!'
           ansiColor('xterm') {
