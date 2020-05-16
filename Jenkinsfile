@@ -12,6 +12,7 @@ node {
         sh 'grep -i 1 temp.value'
       } catch (err) {
         flag_destroy = 0
+        return
       }
       flag_destroy = 1
    }
