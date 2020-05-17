@@ -20,7 +20,7 @@ node {
     // Run terraform init
     stage('init') {
       ansiColor('xterm') {
-        sh 'terraform init'
+        sh 'terraform init -input=false'
       }
     }
 
