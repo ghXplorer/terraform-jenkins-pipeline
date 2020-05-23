@@ -6,13 +6,11 @@ node {
     stage('checkout') {
       cleanWs()
       checkout scm
-      sh 'ls -al | grep "destroy" | wc -l > temp.value'
-      sh 'more temp.value'
       try {
-        sh 'grep -i 1 temp.value'
+        sh 'test -e destroy'
       } catch (err) {
-        flag_destroy = 0
-        return
+          flag_destroy = 0
+          return
       }
       flag_destroy = 1
    }
