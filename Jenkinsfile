@@ -1,70 +1,58 @@
-// Jenkinsfile for scripted pipeline
-
-node {
-  try {
-    // Checking repo and searching for 'destroy flag'
-    stage('checkout') {
-      cleanWs()
-      checkout scm
-      try {
-        sh 'test -e destroy'
-      } catch (err) {
-          flag_destroy = 0
-          return
-      }
-      flag_destroy = 1
-   }
-  
-    // Run terraform init
-    stage('init') {
-      ansiColor('xterm') {
-        sh 'terraform init -input=false'
-      }
+pipeline {
+    agent any 
+    environment {
+        DESTROY = """${sh(
+                returnStatus: true,
+                script: 'test -e destroy'
+            )}"""
     }
-
-    // Run terraform plan
-    stage('plan or destroy') {
-      if (flag_destroy == 1) {
-          echo 'Destroying AWS infrastructure - DESTROY FLAG detected!'
-          ansiColor('xterm') {
-            sh 'terraform destroy -auto-approve'
+    options {
+        ansiColor('xterm')
+    }
+    
+    stages {
+        stage('Init') {
+            steps {
+              cleanWs()
+              sh 'terraform init -input=false'
+            }
           }
-          return
-      }
-      ansiColor('xterm') {
-        sh 'terraform plan'
-      }
-    }
-  
-    if (env.BRANCH_NAME == 'master' && flag_destroy == 0) {
-  
-      // Run terraform apply
-      stage('apply') {
-        ansiColor('xterm') {
-            sh 'terraform apply -auto-approve'
+        stage('Destroy') {
+            when {
+              expression {
+                env.DESTROY == '0'
+              }
+            }
+            steps {
+                sh 'terraform destroy -auto-approve'
+            }
+        }        
+        stage('Provision') {
+            when {
+              expression {
+                env.DESTROY == '1' 
+              }
+            }
+            stages {
+              stage('Plan') {
+                steps {
+                  sh 'terraform plan'
+                }
+              }
+              stage('Deploy') {
+                when {
+                  branch 'master'
+                }
+                steps {
+                  sh 'terraform apply -auto-approve'
+                }
+              }
+              stage('Show') {
+                steps {
+                  sh 'terraform show'
+                }
+              }
+            }
         }
-      }
-  
-      // Run terraform show
-      stage('show') {
-        ansiColor('xterm') {
-          sh 'terraform show'
-        }
-      }
-  
-      currentBuild.result = 'SUCCESS'
     }
-  }
-  
-  catch (err) {
-    currentBuild.result = 'FAILURE'
-    echo "Caught: ${err}"
-    throw err
-  }
-  
-  finally {
-    if (currentBuild.result == 'SUCCESS') {
-      echo "SUCCESS!"
-    }
-  }
 }
