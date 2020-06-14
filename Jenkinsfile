@@ -13,7 +13,6 @@ pipeline {
     stages {
         stage('Init') {
             steps {
-              cleanWs()
               sh 'terraform init -input=false'
             }
           }
